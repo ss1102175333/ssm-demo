@@ -3,11 +3,11 @@ package com.ssm.demo.service.impl;
 import com.ssm.demo.dao.AdminUserDao;
 import com.ssm.demo.entity.AdminUser;
 import com.ssm.demo.service.AdminUserService;
-import com.ssm.demo.utils.MD5Util;
-import com.ssm.demo.utils.NumberUtil;
-import com.ssm.demo.utils.SystemUtil;
+import com.ssm.demo.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Created by 13 on 2018/7/4.
@@ -32,7 +32,13 @@ public class AdminUserServiceImpl implements AdminUserService {
         }
         return null;
     }
-
+    @Override
+    public PageResult getAdminUserPage(PageUtil pageUtil) {
+        List<AdminUser> users = adminUserDao.findAdminUsers(pageUtil);
+        int total = adminUserDao.getTotalAdminUser(pageUtil);
+        PageResult pageResult = new PageResult(users, total, pageUtil.getLimit(), pageUtil.getPage());
+        return pageResult;
+    }
     /**
      * 获取token值
      *
